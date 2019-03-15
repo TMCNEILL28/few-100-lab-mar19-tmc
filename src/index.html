@@ -1,10 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Webpack Showcase</title>
+    <title>Tip Calculator</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+
 <body>
-    <h1>Welcome to Class.</h1>
+    <div class="container">
+        <header class="page-header">
+            <h1>Tip Calculator</h1>
+        </header>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   aria-label=" Tip Amount">
+        </div>
+        <div class="btn-group btn-group-toggle"
+             data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio"
+                       name="options"
+                       id="option1"
+                       autocomplete="off"
+                       checked>10%
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio"
+                       name="options"
+                       id="option2"
+                       autocomplete="off"> 15%
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio"
+                       name="options"
+                       id="option3"
+                       autocomplete="off"> 20%
+            </label>
+        </div>
+        <div>You are tipping </div>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item">Bill Amount:</li>
+                <li class="list-group-item">Tip Percentage: </li>
+                <li class="list-group-item">Amount of tip:</li>
+                <li class="list-group-item">Total to be Paid:</li>
+            </ul>
+        </div>
+    </div>
 </body>
+
 </html>
