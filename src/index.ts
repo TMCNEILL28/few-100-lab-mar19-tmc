@@ -1,2 +1,13 @@
 import './styles.css';
-console.log('Ready to Party');
+
+const billAmount = document.getElementById('billAmount');
+let currentTipPercent = .10;
+
+const tipButton = document.querySelectorAll('.btn btn-secondary');
+
+billAmount.addEventListener('input', function (evt) {
+
+    //update Values
+
+});
+
