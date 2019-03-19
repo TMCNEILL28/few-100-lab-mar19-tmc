@@ -9,8 +9,6 @@ billAmount.addEventListener('input', function (evt) {
 
     //update Values
     document.getElementById('billAmount2').innerHTML = this.value;
-    alert(this.value);
-
 });
 
 tipButtons.forEach((btn, idx) => {
@@ -21,6 +19,7 @@ tipButtons.forEach((btn, idx) => {
         }
         currentTipPercent = this.innerText;
         document.getElementById('tipPercent').innerHTML = currentTipPercent;
+        document.getElementById('tipPercent2').innerHTML = currentTipPercent;
 
     })
 });
