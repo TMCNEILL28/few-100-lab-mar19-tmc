@@ -9,6 +9,8 @@ billAmount.addEventListener('input', function (evt) {
 
     //update Values
     document.getElementById('billAmount2').innerHTML = this.value;
+    computePercentage();
+
 });
 
 tipButtons.forEach((btn, idx) => {
@@ -20,7 +22,26 @@ tipButtons.forEach((btn, idx) => {
         currentTipPercent = this.innerText;
         document.getElementById('tipPercent').innerHTML = currentTipPercent;
         document.getElementById('tipPercent2').innerHTML = currentTipPercent;
+        computePercentage();
 
     })
 });
+
+function computePercentage() {
+    let percent: number = .10;
+    let tipAmount: number;
+    let totalAmount: number;
+    let totalBill: number = parseFloat(document.getElementById('billAmount2').innerHTML);
+    switch (currentTipPercent) {
+        case "10%": percent = .10;
+        case "15%": percent = .15;
+        case "20%": percent = .20;
+    }
+    tipAmount = totalBill * percent;
+    document.getElementById('tipAmount').innerHTML = tipAmount.toString();
+    totalAmount = totalBill + tipAmount;
+    document.getElementById('totalAmount').innerHTML = totalAmount.toString();
+
+}
+
 
