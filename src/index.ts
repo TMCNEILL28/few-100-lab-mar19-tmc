@@ -1,17 +1,25 @@
 import './styles.css';
 
-const billAmount = <HTMLInputElement>document.getElementById('billInput');
+const billInputAmount = <HTMLInputElement>document.getElementById('billInput');
+let billAmount: number;
 let currentTipPercent = '10%';
 
 const tipButtons = document.querySelectorAll('.btn-secondary');
 SetupButtons();
 DisplayTipPercent();
 
-billAmount.addEventListener('input', function (evt) {
+billInputAmount.addEventListener('input', function (evt) {
 
     //update Values
-    document.getElementById('billAmount2').innerHTML = this.value;
-    computePercentage();
+    billAmount = parseFloat(this.value);
+    if (isNaN(billAmount)) {
+        billInputAmount.classList.add('bad');
+    } else {
+
+        billInputAmount.classList.remove('bad');
+        document.getElementById('billAmount2').innerHTML = "$" + billAmount.toFixed(2);
+        computePercentage();
+    }
 
 });
 
@@ -32,7 +40,7 @@ function computePercentage() {
     let percent: number = .10;
     let tipAmount: number;
     let totalAmount: number;
-    let totalBill: number = parseFloat(document.getElementById('billAmount2').innerHTML);
+    // let totalBill: number = billAmount;
     switch (currentTipPercent) {
         case "10%":
             percent = .10;
@@ -44,10 +52,10 @@ function computePercentage() {
             percent = .20;
             break;
     }
-    tipAmount = totalBill * percent;
-    document.getElementById('tipAmount').innerHTML = tipAmount.toString();
-    totalAmount = totalBill + tipAmount;
-    document.getElementById('totalAmount').innerHTML = totalAmount.toString();
+    tipAmount = billAmount * percent;
+    document.getElementById('tipAmount').innerHTML = "$" + tipAmount.toFixed(2);
+    totalAmount = billAmount + tipAmount;
+    document.getElementById('totalAmount').innerHTML = "$" + totalAmount.toFixed(2);
 
 }
 
