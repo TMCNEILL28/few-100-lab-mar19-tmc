@@ -2,33 +2,37 @@ import './styles.css';
 
 const billInputAmount = <HTMLInputElement>document.getElementById('billInput');
 let billAmount: number;
-let currentTipPercent = '10%';
+let currentTipPercent: number = .10;
 
 const tipButtons = document.querySelectorAll('.btn-secondary');
 SetupButtons();
 DisplayTipPercent();
 
 billInputAmount.addEventListener('input', function (evt) {
-
     //update Values
     billAmount = parseFloat(this.value);
     if (isNaN(billAmount)) {
         billInputAmount.classList.add('bad');
+        ClearCalculatedValues()
     } else {
 
-        billInputAmount.classList.remove('bad');
-        document.getElementById('billAmount2').innerHTML = "$" + billAmount.toFixed(2);
-        computePercentage();
+        if (billAmount < 0) {
+            billInputAmount.classList.add('bad');
+            ClearCalculatedValues()
+        } else {
+            billInputAmount.classList.remove('bad');
+            document.getElementById('billAmount').innerHTML = "$" + billAmount.toFixed(2);
+            computePercentage();
+        }
     }
 
 });
 
 tipButtons.forEach((btn, idx) => {
-    const el = btn as HTMLDivElement;
     btn.addEventListener('click', function () {
         if (!this.classList.contains('disabled')) {
             this.classList.add('disabled');
-            currentTipPercent = this.innerText;
+            currentTipPercent = parseFloat(this.getAttribute('tipPercent'));
             SetupButtons();
             DisplayTipPercent();
             computePercentage();
@@ -37,33 +41,25 @@ tipButtons.forEach((btn, idx) => {
 });
 
 function computePercentage() {
-    let percent: number = .10;
+    //let percent: number = .10;
     let tipAmount: number;
     let totalAmount: number;
-    // let totalBill: number = billAmount;
-    switch (currentTipPercent) {
-        case "10%":
-            percent = .10;
-            break;
-        case "15%":
-            percent = .15;
-            break;
-        case "20%":
-            percent = .20;
-            break;
-    }
-    tipAmount = billAmount * percent;
+    tipAmount = billAmount * currentTipPercent;
     document.getElementById('tipAmount').innerHTML = "$" + tipAmount.toFixed(2);
     totalAmount = billAmount + tipAmount;
     document.getElementById('totalAmount').innerHTML = "$" + totalAmount.toFixed(2);
+}
 
+function ClearCalculatedValues() {
+    document.getElementById('billAmount').innerHTML = "$";
+    document.getElementById('tipAmount').innerHTML = "$";
+    document.getElementById('totalAmount').innerHTML = "$";
 }
 
 function SetupButtons() {
-
     tipButtons.forEach((btn, idx) => {
-        const el = btn as HTMLDivElement;
-        if (el.getAttribute("tipPercent") === currentTipPercent) {
+        const el = btn as HTMLButtonElement;
+        if (parseFloat(el.getAttribute("tipPercent")) === currentTipPercent) {
             el.classList.add('disabled');
         } else {
             if (el.classList.contains('disabled')) {
@@ -75,7 +71,7 @@ function SetupButtons() {
 }
 
 function DisplayTipPercent() {
-    document.getElementById('tipPercent').innerHTML = currentTipPercent;
-    document.getElementById('tipPercent2').innerHTML = currentTipPercent;
+    document.getElementById('tipPercent').innerHTML = currentTipPercent.toString();
+    document.getElementById('tipPercent2').innerHTML = currentTipPercent.toString();
 }
 
