@@ -5,43 +5,32 @@ let billAmount: number;
 let currentTipPercent: number = .10;
 
 const tipButtons = document.querySelectorAll('.btn-secondary');
-SetupButtons();
-DisplayTipPercent();
+setButtonAttributes();
+displayTipPercent();
 
 billInputAmount.addEventListener('input', function (evt) {
     //update Values
     billAmount = parseFloat(this.value);
-    if (isNaN(billAmount)) {
+    if (billAmount < 0) {
         billInputAmount.classList.add('bad');
-        ClearCalculatedValues()
+        clearCalculatedValues()
     } else {
-
-        if (billAmount < 0) {
-            billInputAmount.classList.add('bad');
-            ClearCalculatedValues()
-        } else {
-            billInputAmount.classList.remove('bad');
-            document.getElementById('billAmount').innerHTML = "$" + billAmount.toFixed(2);
-            computePercentage();
-        }
+        billInputAmount.classList.remove('bad');
+        document.getElementById('billAmount').innerHTML = "$" + billAmount.toFixed(2);
+        computePercentage();
     }
-
 });
 
 tipButtons.forEach((btn, idx) => {
     btn.addEventListener('click', function () {
-        if (!this.classList.contains('disabled')) {
-            this.classList.add('disabled');
-            currentTipPercent = parseFloat(this.getAttribute('tipPercent'));
-            SetupButtons();
-            DisplayTipPercent();
-            computePercentage();
-        }
+        currentTipPercent = parseFloat(this.getAttribute('tipPercent'));
+        setButtonAttributes();
+        displayTipPercent();
+        computePercentage();
     })
 });
 
 function computePercentage() {
-    //let percent: number = .10;
     let tipAmount: number;
     let totalAmount: number;
     tipAmount = billAmount * currentTipPercent;
@@ -50,28 +39,26 @@ function computePercentage() {
     document.getElementById('totalAmount').innerHTML = "$" + totalAmount.toFixed(2);
 }
 
-function ClearCalculatedValues() {
+function clearCalculatedValues() {
     document.getElementById('billAmount').innerHTML = "$";
     document.getElementById('tipAmount').innerHTML = "$";
     document.getElementById('totalAmount').innerHTML = "$";
 }
 
-function SetupButtons() {
+function setButtonAttributes() {
     tipButtons.forEach((btn, idx) => {
         const el = btn as HTMLButtonElement;
         if (parseFloat(el.getAttribute("tipPercent")) === currentTipPercent) {
             el.classList.add('disabled');
-        } else {
-            if (el.classList.contains('disabled')) {
-                el.classList.remove('disabled');
-
-            }
+        } else if (el.classList.contains('disabled')) {
+            el.classList.remove('disabled');
         }
     })
 }
 
-function DisplayTipPercent() {
-    document.getElementById('tipPercent').innerHTML = currentTipPercent.toString();
-    document.getElementById('tipPercent2').innerHTML = currentTipPercent.toString();
+function displayTipPercent() {
+    const percentDisplay: string = (currentTipPercent * 100).toString() + "%";
+    document.getElementById('tipPercent').innerHTML = percentDisplay;
+    document.getElementById('tipPercent2').innerHTML = percentDisplay;
 }
 
